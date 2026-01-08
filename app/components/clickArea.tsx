@@ -1,27 +1,56 @@
-import { useEffect } from "react";
-import { useState } from "react";
+"use client"; 
+
+import { useState, useEffect } from "react";
+
 
 
 export default function ClickArea() {
     let counter;
     let userInterval = 10000
-    let [timeStart, setTimeStart] = useState(false);
-    let [counterStart, setCounterStart] = useState(false);
+    let userPrepInterval = 5
+    //CONTADOR FISICO
+    let [timeStarted, setTimeStart] = useState(false);
+    //CPS MAIN
+    let [counterStarted, setCounterStart] = useState(false);
+    //PREPARATION TIMER
+    let [timeLeft, setTimeLeft] = useState(userPrepInterval);
+
+    
+  useEffect(() => {
+    if (!counterStarted) return;
+
+    setTimeLeft(userPrepInterval);
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+      return () => clearInterval(timer);
+    }, [counterStarted, userPrepInterval]);
 
 
-    const MainTimer = () => {
-        setInterval(() => {
-            
-        }, userInterval);
-    }
+
+
 
   return (
     <div className="flex flex-col items-center gap-4 w-full">
 
       
       <div className="flex gap-2 bg-neutral-900/80 backdrop-blur px-3 py-2 rounded-xl shadow">
-        <button className="px-3 py-1.5 rounded-md bg-neutral-700 hover:bg-neutral-600 text-sm">
-          RESET
+        <button 
+        onClick={() => setCounterStart(!counterStarted)}
+        className="px-3 py-1.5 rounded-md bg-neutral-700 hover:bg-neutral-600 text-sm"
+        >
+
+
+          {counterStarted ? "RESET" : "START"}
+
+
         </button>
 
         <div className="px-3 py-1.5 rounded-md bg-neutral-800 text-sm text-neutral-300">
@@ -35,6 +64,7 @@ export default function ClickArea() {
 
       
       <div
+        onClick={()=> {null}}
         className="
           w-[420px] h-[260px]
           flex items-center justify-center
@@ -47,7 +77,11 @@ export default function ClickArea() {
           transition
         "
       >
-        Click
+
+        {!counterStarted && "Click Me !!"}
+        
+        {counterStarted ? "Iniciando En: " + timeLeft : ""}
+
       </div>
 
     </div>

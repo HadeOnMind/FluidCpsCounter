@@ -1,35 +1,31 @@
-export default function historyView () {
+export default function HistoryView() {
+  const mockStats = [
+    { label: "Result", cps: "9.8" },
+    { label: "Result", cps: "9.8" },
+    { label: "Result", cps: "9.8" },
+    { label: "Result", cps: "9.8" },
+  ];
 
-    let muckstats = [
-        { label: "Result:", cps: "9.8"}, 
-        { label: "Result:", cps: "9.8"}, 
-        { label: "Result:", cps: "9.8"}, 
-        { label: "Result:", cps: "9.8"}, 
-    ];
-    
+  return (
+    <div className="w-5/6 bg-neutral-900 rounded-xl p-4 shadow-lg">
 
+      <h2 className="text-sm font-semibold text-neutral-200 mb-3">
+        History
+      </h2>
 
-    return(
-
-        <div>
-                <div>
-
-                    <div>
-                        TITLE
-                    </div>
-
-                    <div>
-                        {muckstats.map((item, index) => (
-                            <li key={index} className="flex justify-between py-1">
-                                <span className="font-medium">{item.label}</span>
-                                <span>{item.cps}</span>
-                            </li>
-                        ))}
-                    </div>
-
-                </div>
-
-        </div>
-
-    )
+      <ul className="space-y-2">
+        {mockStats.map((item, index) => (
+          <li
+            key={index}
+            className="flex justify-between text-sm text-neutral-400"
+          >
+            <span>{item.label}</span>
+            <span className="font-medium text-neutral-200">
+              {item.cps}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

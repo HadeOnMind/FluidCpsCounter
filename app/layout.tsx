@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import HistoryView from "./components/historyView";
 import TopBar from "./components/topBar";
+import ConfigArea from "./components/configArea";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,14 +31,20 @@ export default function RootLayout({
 
         <TopBar />
 
-        <div className="flex">
-          
-          <HistoryView />
+        <div className="flex p-2">
 
+          <div className="w-1/6">
+            <HistoryView />
+          </div>
           
           <main className="flex-1 p-6">
             {children}
           </main>
+
+          <div className="w-1/6">
+            <ConfigArea />
+          </div>
+
         </div>
       </body>
     </html>

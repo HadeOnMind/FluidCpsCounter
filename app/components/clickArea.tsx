@@ -1,19 +1,35 @@
 "use client"; 
 
+import { count } from "console";
 import { useState, useEffect } from "react";
 
 
 
 export default function ClickArea() {
-    let counter;
+    const [counter, setCounter] = useState(0);
+
     let userInterval = 10000
-    let userPrepInterval = 5
+    let userPrepInterval = 1500
+
     //CONTADOR FISICO
     let [timeStarted, setTimeStart] = useState(false);
+
     //CPS MAIN
     let [counterStarted, setCounterStart] = useState(false);
+
     //PREPARATION TIMER
     let [timeLeft, setTimeLeft] = useState(userPrepInterval);
+
+  const countClicks = () => {
+    if (counterStarted) {
+      setCounter(prev => {
+        console.log(prev + 1);
+        return prev + 1;
+      });
+    } else if (!counterStarted && timeLeft !== 0) {
+      setCounter(0);
+    }
+  };
 
     
   useEffect(() => {
@@ -28,10 +44,18 @@ export default function ClickArea() {
         }
         return prev - 1;
       });
-    }, 1000);
+    }, 1);
 
       return () => clearInterval(timer);
     }, [counterStarted, userPrepInterval]);
+
+
+    useEffect(() => {
+      if (timeLeft === 0 && counterStarted) {
+        setCounterStart(false);
+        setCounter(0) // or setCounterStart(!counterStarted)
+      }
+    }, [timeLeft, counterStarted]);
 
 
 
@@ -54,7 +78,7 @@ export default function ClickArea() {
         </button>
 
         <div className="px-3 py-1.5 rounded-md bg-neutral-800 text-sm text-neutral-300">
-          RESULTS
+          {counter == 0 ? "RESULT" : counter}
         </div>
 
         <button className="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-sm text-white">
@@ -64,7 +88,7 @@ export default function ClickArea() {
 
       
       <div
-        onClick={()=> {null}}
+        onClick={countClicks}
         className="
           w-[420px] h-[260px]
           flex items-center justify-center
@@ -81,6 +105,7 @@ export default function ClickArea() {
         {!counterStarted && "Click Me !!"}
         
         {counterStarted ? "Iniciando En: " + timeLeft : ""}
+
 
       </div>
 

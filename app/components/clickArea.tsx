@@ -6,76 +6,113 @@ import { useState, useEffect } from "react";
 
 
 export default function ClickArea() {
+  
+    let userInterval = 10
+    let userPrepInterval = 3
+    
+    type Phase = "idle" | "preparing" | "running" | "finished";
+
+    const [phase, setPhase] = useState<"idle" | "preparing" | "running" | "finished">("idle");
+    const [prepTimeLeft, setPrepTimeLeft] = useState(userPrepInterval);
+    const [timeLeft, setTimeLeft] = useState(userInterval);
     const [counter, setCounter] = useState(0);
-
-    let userInterval = 10000
-    let userPrepInterval = 1500
-
-    //CONTADOR FISICO
-    let [timeStarted, setTimeStart] = useState(false);
-
-    //CPS MAIN
-    let [counterStarted, setCounterStart] = useState(false);
-
-    //PREPARATION TIMER
-    let [timeLeft, setTimeLeft] = useState(userPrepInterval);
-
-  const countClicks = () => {
-    if (counterStarted) {
-      setCounter(prev => {
-        console.log(prev + 1);
-        return prev + 1;
-      });
-    } else if (!counterStarted && timeLeft !== 0) {
-      setCounter(0);
-    }
-  };
+    const [result, setResult] = useState<number | null>(null);
 
     
-  useEffect(() => {
-    if (!counterStarted) return;
 
-    setTimeLeft(userPrepInterval);
+
+    const countClicks = () => {
+      if (phase === "running") {
+        setCounter(prev => prev + 1);
+      }
+    };
+    
+
+
+  const startTest  = () => {
+    setPhase("preparing");
+    setCounter(0);
+    setTimeLeft(userInterval);
+    setResult(null);
+  }
+
+
+  useEffect(() => {
+    if (phase !== "preparing") return;
+  
     const timer = setInterval(() => {
-      setTimeLeft(prev => {
+      setPrepTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timer);
+          setPhase("running");
+          setTimeLeft(userInterval);
           return 0;
         }
         return prev - 1;
       });
-    }, 1);
-
-      return () => clearInterval(timer);
-    }, [counterStarted, userPrepInterval]);
-
-
-    useEffect(() => {
-      if (timeLeft === 0 && counterStarted) {
-        setCounterStart(false);
-        setCounter(0) // or setCounterStart(!counterStarted)
-      }
-    }, [timeLeft, counterStarted]);
+    }, 1000);
+  
+    return () => clearInterval(timer);
+  }, [phase, userPrepInterval]);
+  
 
 
 
 
+
+  useEffect(() => {
+    if (phase !== "running") return;
+  
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setPhase("finished");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  
+    return () => clearInterval(timer);
+  }, [phase]);
+  
+  useEffect(() => {
+    if (phase === "finished") {
+      setResult(counter / userInterval);
+    }
+  }, [phase, counter]);
+
+
+  const reset = () => {
+    setPhase("idle");
+    setCounter(0);
+    setTimeLeft(userInterval);
+    setPrepTimeLeft(userPrepInterval);
+    setResult(null);
+  };
 
   return (
     <div className="flex flex-col items-center gap-4 w-full">
 
       
       <div className="flex gap-2 bg-neutral-900/80 backdrop-blur px-3 py-2 rounded-xl shadow">
-        <button 
-        onClick={() => setCounterStart(!counterStarted)}
-        className="px-3 py-1.5 rounded-md bg-neutral-700 hover:bg-neutral-600 text-sm"
+        <button
+
+          onClick={() => {
+            if (phase === "running" || phase === "preparing") {
+              reset();
+            } else {
+              startTest();
+            }
+          }}
+
+          className="px-3 py-1.5 rounded-md bg-neutral-700 hover:bg-neutral-600 text-sm"
         >
-
-
-          {counterStarted ? "RESET" : "START"}
-
-
+          {phase === "running" || phase === "preparing" ? "RESET" : "START"}
+      
         </button>
+
 
         <div className="px-3 py-1.5 rounded-md bg-neutral-800 text-sm text-neutral-300">
           {counter == 0 ? "RESULT" : counter}
@@ -102,10 +139,10 @@ export default function ClickArea() {
         "
       >
 
-        {!counterStarted && "Click Me !!"}
-        
-        {counterStarted ? "Iniciando En: " + timeLeft : ""}
-
+        {phase === "idle" && "Click START"}
+        {phase === "preparing" && `Starting in ${prepTimeLeft}`}
+        {phase === "running" && `Time left: ${timeLeft}s`}
+        {phase === "finished" && `CPS: ${result?.toFixed(2)}`}
 
       </div>
 

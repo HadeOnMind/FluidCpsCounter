@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { CpsContext } from "../context/CpsContext";
 import test from "node:test";
+const defaultSize = "w-[280px] h-[120px]"
+const defaultColor = "bg-blue-600"
 
 export default function CpsController({ children }: { children: React.ReactNode })
 
@@ -17,10 +19,9 @@ export default function CpsController({ children }: { children: React.ReactNode 
     const [timeLeft, setTimeLeft] = useState(DEFAULT_TEST_TIME);
     const [counter, setCounter] = useState(0)
     const [result, setResult] = useState<number|null>(null)
-    const [color, setColor] = useState(String)
-    const [size, setSize] = useState(String)
-
-    let [historyViewArray, setHistoryViewArray ] = useState([]);
+    const [color, setColor] = useState<String>(defaultColor)
+    const [size, setSize] = useState<String>(defaultSize)
+    const [historyViewArray, setHistoryViewArray ] = useState([]);
 
     
         const countClicks = () => {

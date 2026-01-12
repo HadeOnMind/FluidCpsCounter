@@ -3,7 +3,7 @@
 import { count } from "console";
 import { useState, useEffect } from "react";
 import { useCps } from "../context/CpsContext";
-
+let nextId = 0;
 
 
 
@@ -20,10 +20,13 @@ export default function ClickArea() {
     countClicks,
     color,
     size,
-  } = useCps();
+    testTime,
+    historyViewArray,
+    setHistoryViewArray
+  } = useCps();  
 
 
-  
+  const disabled = phase !== "finished"
 
 
     
@@ -42,7 +45,7 @@ export default function ClickArea() {
             }
           }}
 
-          className="px-3 py-1.5 rounded-md bg-neutral-700 hover:bg-neutral-600 text-sm"
+          className="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-neutral-600 text-sm"
         >
           {phase === "running" || phase === "preparing" ? "RESET" : "START"}
       
@@ -53,12 +56,32 @@ export default function ClickArea() {
           {counter == 0 ? "RESULT" : counter}
         </div>
 
-        <button className="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-sm text-white">
+       <button
+          className={
+            disabled
+              ? "text-gray-800" :
+              "px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-sm text-white"
+          }
+          disabled={disabled}
+          onClick={() => {
+            console.log("clicked")
+            setHistoryViewArray([
+              ...historyViewArray,
+              {
+                id: nextId++,          
+                result: result,
+                testTime: testTime,      
+                preparation: prepTime
+              }
+            ]);
+          }}
+        >
           SAVE
         </button>
+
       </div>
 
-      
+        
       <div
         onClick={countClicks}
         className={`

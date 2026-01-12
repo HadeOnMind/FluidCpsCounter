@@ -14,10 +14,10 @@ export default function ConfigArea() {
     color,
     setColor,
     size,
-    setSize
+    setSize,
   } = useCps();
 
-  const disabled = phase !== "idle";
+  const disabled = phase !== "idle" && phase !== "finished"
 
   const [selectedColor, setSelectedColor] = useState(null);
   const colors = ["BLUE", "RED", "YELLOW"];

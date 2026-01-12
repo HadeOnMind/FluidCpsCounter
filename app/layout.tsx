@@ -4,6 +4,7 @@ import "./globals.css";
 import HistoryView from "./components/historyView";
 import TopBar from "./components/topBar";
 import ConfigArea from "./components/configArea";
+import CpsController from "./components/Controller";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,24 +29,28 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-
-        <TopBar />
-
-        <div className="flex p-2">
-
-          <div className="w-1/6">
-            <HistoryView />
-          </div>
+        <CpsController>
           
-          <main className="flex-1 p-6">
-            {children}
-          </main>
+          <TopBar />
 
-          <div className="w-1/6">
-            <ConfigArea />
+          <div className="flex p-2">
+
+            <div className="w-1/6">
+              <HistoryView />
+            </div>
+            
+            <main className="flex-1 p-6">
+              {children}
+            </main>
+
+            <div className="w-1/6">
+              <ConfigArea />
+            </div>
+
           </div>
 
-        </div>
+        </ CpsController>
+
       </body>
     </html>
   );

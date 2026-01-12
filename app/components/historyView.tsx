@@ -1,4 +1,11 @@
+"use client";
+
+import { useCps } from "../context/CpsContext";
+
 export default function HistoryView() {
+
+  const { historyViewArray } = useCps();
+
   const mockStats = [
     { label: "Result", cps: "9.8" },
     { label: "Result", cps: "9.8" },
@@ -14,7 +21,7 @@ export default function HistoryView() {
       </h2>
 
       <ul className="space-y-2">
-        {mockStats.map((item, index) => (
+        {historyViewArray.map((item, index) => (
           <li
             key={index}
             className="flex justify-between text-sm text-neutral-400"

@@ -2,96 +2,31 @@
 
 import { count } from "console";
 import { useState, useEffect } from "react";
+import { useCps } from "../context/CpsContext";
+
 
 
 
 export default function ClickArea() {
-  
-    let userInterval = 10
-    let userPrepInterval = 3
     
-    type Phase = "idle" | "preparing" | "running" | "finished";
+  const {
+    phase,
+    counter,
+    prepTime,
+    timeLeft,
+    result,
+    startTest,
+    reset,
+    countClicks,
+    color,
+    size,
+  } = useCps();
 
-    const [phase, setPhase] = useState<"idle" | "preparing" | "running" | "finished">("idle");
-    const [prepTimeLeft, setPrepTimeLeft] = useState(userPrepInterval);
-    const [timeLeft, setTimeLeft] = useState(userInterval);
-    const [counter, setCounter] = useState(0);
-    const [result, setResult] = useState<number | null>(null);
+
+  
+
 
     
-
-
-    const countClicks = () => {
-      if (phase === "running") {
-        setCounter(prev => prev + 1);
-      }
-    };
-    
-
-
-  const startTest  = () => {
-    setPhase("preparing");
-    setCounter(0);
-    setTimeLeft(userInterval);
-    setResult(null);
-  }
-
-
-  useEffect(() => {
-    if (phase !== "preparing") return;
-  
-    const timer = setInterval(() => {
-      setPrepTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setPhase("running");
-          setTimeLeft(userInterval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  
-    return () => clearInterval(timer);
-  }, [phase, userPrepInterval]);
-  
-
-
-
-
-
-  useEffect(() => {
-    if (phase !== "running") return;
-  
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setPhase("finished");
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  
-    return () => clearInterval(timer);
-  }, [phase]);
-  
-  useEffect(() => {
-    if (phase === "finished") {
-      setResult(counter / userInterval);
-    }
-  }, [phase, counter]);
-
-
-  const reset = () => {
-    setPhase("idle");
-    setCounter(0);
-    setTimeLeft(userInterval);
-    setPrepTimeLeft(userPrepInterval);
-    setResult(null);
-  };
-
   return (
     <div className="flex flex-col items-center gap-4 w-full">
 
@@ -126,21 +61,21 @@ export default function ClickArea() {
       
       <div
         onClick={countClicks}
-        className="
-          w-[420px] h-[260px]
+        className={`
+          ${size}
           flex items-center justify-center
           rounded-2xl
-          bg-neutral-900
+          ${color}
           border border-neutral-700
           text-2xl font-semibold
           select-none cursor-pointer
           active:scale-[0.98]
           transition
-        "
+        `}
       >
 
         {phase === "idle" && "Click START"}
-        {phase === "preparing" && `Starting in ${prepTimeLeft}`}
+        {phase === "preparing" && `Starting in ${prepTime}`}
         {phase === "running" && `Time left: ${timeLeft}s`}
         {phase === "finished" && `CPS: ${result?.toFixed(2)}`}
 

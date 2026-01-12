@@ -12,8 +12,10 @@ export default function HistoryView() {
 
   } = useCps();
 
-  const promedium = historyViewArray > 0 ? historyViewArray.reduce((sum, item) => sum + item.result, 0) / historyViewArray.length 
-  : 0;
+  const promedium = historyViewArray.length > 0
+    ? historyViewArray.reduce((sum, item) => sum + item.result, 0) / historyViewArray.length
+    : 0;
+
 
 
   const min = Math.min(...historyViewArray.map(i => i.result));

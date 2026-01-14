@@ -21,7 +21,7 @@ export default function CpsController({ children }: { children: React.ReactNode 
     const [result, setResult] = useState<number|null>(null)
     const [color, setColor] = useState<String>(defaultColor)
     const [size, setSize] = useState<String>(defaultSize)
-    const [historyViewArray, setHistoryViewArray ] = useState([]);
+    const [historyViewArray, setHistoryViewArray] = useState<Number[]>([]);
 
     
         const countClicks = () => {

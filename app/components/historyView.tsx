@@ -18,9 +18,6 @@ export default function HistoryView() {
 
 
 
-  const min = Math.min(...historyViewArray.map(i => i.result));
-  const max = Math.max(...historyViewArray.map(i => i.result));
-
 
 
   return (

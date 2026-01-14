@@ -13,7 +13,7 @@ export default function HistoryView() {
   } = useCps();
 
   const promedium = historyViewArray.length > 0
-    ? historyViewArray.reduce((sum, item) => sum + item.result, 0) / historyViewArray.length
+    ? historyViewArray.reduce((sum: any, item: any) => sum + item.result, 0) / historyViewArray.length
     : 0;
 
 
@@ -28,7 +28,7 @@ export default function HistoryView() {
       </h2>
 
       <ul className="space-y-2">
-        {historyViewArray.map((item) => (
+        {historyViewArray.map((item: any) => (
           <li 
             key={item.id} 
             className="grid grid-cols-3 gap-4 text-sm text-neutral-400 bg-neutral-800 rounded-lg p-3" 

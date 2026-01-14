@@ -2,6 +2,7 @@
 
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useCps } from "../context/CpsContext";
+import { HistoryItem } from "./HistoryInterface";
 
 
 export default function graphArea () {
@@ -16,9 +17,13 @@ export default function graphArea () {
     
       } = useCps();
 
-  const chartData = historyViewArray.map((item, index) => ({
-    attempt: index + 1,
-    cps: item.result}));
+    interface ChartPoint { attempt: number; cps: number; }
+
+    const chartData: ChartPoint[] = historyViewArray.map((item: HistoryItem, index: number) => ({
+      attempt: index + 1,
+      cps: item.result,
+    }));
+
 
     return (
 

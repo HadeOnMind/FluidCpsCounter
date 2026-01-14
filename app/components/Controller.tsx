@@ -5,6 +5,7 @@ import { CpsContext } from "../context/CpsContext";
 import test from "node:test";
 const defaultSize = "w-[280px] h-[120px]"
 const defaultColor = "bg-blue-600"
+import {HistoryItem} from "@/app/components/HistoryInterface"
 
 export default function CpsController({ children }: { children: React.ReactNode })
 
@@ -21,7 +22,8 @@ export default function CpsController({ children }: { children: React.ReactNode 
     const [result, setResult] = useState<number|null>(null)
     const [color, setColor] = useState<String>(defaultColor)
     const [size, setSize] = useState<String>(defaultSize)
-    const [historyViewArray, setHistoryViewArray] = useState<Number[]>([]);
+
+    const [historyViewArray, setHistoryViewArray] = useState<HistoryItem[]>([]);
 
     
         const countClicks = () => {

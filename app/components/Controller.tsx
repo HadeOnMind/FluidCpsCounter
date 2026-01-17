@@ -114,7 +114,7 @@ export default function CpsController({ children }: { children: React.ReactNode 
             color,
             size,
 
-            
+            setPhase,
             setPrepTime,
             setTestTime,
             startTest,

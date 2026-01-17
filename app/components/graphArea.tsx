@@ -27,7 +27,7 @@ export default function graphArea () {
 
     return (
 
-    <div style={{ width: "100%", height: 150 }}>
+    <div style={{ width: "100%", height: 300 }}>
       <ResponsiveContainer>
         <LineChart data={chartData}>
           <XAxis dataKey="attempt" />

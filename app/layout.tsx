@@ -28,18 +28,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
+      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col antialiased`} >
         <CpsController>
           
           <TopBar />
 
-          <div className="flex p-2">
+          <div className="flex flex-1 overflow-hidden">
 
-            <div className="w-1/6">
+            <div className="w-1/6 ">
               <HistoryView />
             </div>
             
-            <main className="flex-1 p-6">
+            <main className="flex-1 p-6 flex justify-center">
               {children}
             </main>
 

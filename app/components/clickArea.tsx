@@ -3,7 +3,7 @@
 import { count } from "console";
 import { useState, useEffect } from "react";
 import { useCps } from "../context/CpsContext";
-let nextId = 0;
+let nextId = 1;
 
 
 
@@ -11,6 +11,7 @@ export default function ClickArea() {
     
   const {
     phase,
+    setPhase,
     counter,
     prepTime,
     timeLeft,
@@ -31,7 +32,7 @@ export default function ClickArea() {
 
     
   return (
-    <div className="flex flex-col items-center gap-4 w-full">
+    <div className="flex flex-col items-center gap-4">
 
       
       <div className="flex gap-2 bg-neutral-900/80 backdrop-blur px-3 py-2 rounded-xl shadow">
@@ -59,12 +60,12 @@ export default function ClickArea() {
        <button
           className={
             disabled
-              ? "text-gray-800" :
-              "px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-sm text-white"
+              ? "px-3 py-1.5 rounded-md bg-gray-300 text-gray-800"
+              : "px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-sm text-white"
           }
           disabled={disabled}
           onClick={() => {
-            console.log("clicked")
+            
             setHistoryViewArray([
               ...historyViewArray,
               {
@@ -73,7 +74,11 @@ export default function ClickArea() {
                 testTime: testTime,      
                 preparation: prepTime
               }
-            ]);
+            ])
+
+            setPhase("idle")
+            console.log("clicked")
+
           }}
         >
           SAVE

@@ -4,18 +4,18 @@ import ClickArea from "./components/clickArea";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
+    <div className="w-full max-w-[900px] flex flex-col gap-10">
         
-        <div className="flex-col bg-amber-50">
-          <div>
+        
+          
             <ClickArea />
-          </div>
+          
 
 
-          <div>
+          
             <GraphArea />
-          </div>
-        </div>
+          
+        
 
     </div>
   );

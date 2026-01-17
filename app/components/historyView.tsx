@@ -21,32 +21,36 @@ export default function HistoryView() {
 
 
   return (
-    <div className="w-fit bg-neutral-900 rounded-xl p-4 shadow-lg">
+    <div className="h-full bg-neutral-900 rounded-xl p-4 shadow-lg flex flex-col">
 
-      <h2 className="text-sm font-semibold text-neutral-200 mb-3">
+      <h2 className="text-sm font-semibold text-neutral-200 mb-3 items-center justify-center text-center">
         History
       </h2>
+      
 
-      <ul className="space-y-2">
-        {historyViewArray.map((item: any) => (
-          <li 
-            key={item.id} 
-            className="grid grid-cols-3 gap-4 text-sm text-neutral-400 bg-neutral-800 rounded-lg p-3" 
-          >
+      <div className="flex-1 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-neutral-700">
+        <ul className="space-y-2">
+          {historyViewArray.map((item: any) => (
+            <li 
+              key={item.id} 
+              className="grid grid-cols-3 gap-4 text-sm text-neutral-400 bg-neutral-800 rounded-lg p-3" 
+            >
+                
+                <span>Attemp: {item.id}</span>
+                <span>Result: {item.result.toFixed(2)}</span>
+                <span>Test Time: {item.testTime.toFixed(2)}</span>
+                
               
-              <span>Attemp: {item.id}</span>
-              <span>Result: {item.result.toFixed(2)}</span>
-              <span>Test Time: {item.testTime.toFixed(2)}</span>
-              
-            
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-    <div className="mt-4 p-3 bg-neutral-800 rounded-lg">
-      <h2 className="text-sm font-semibold text-neutral-200">Average CPS</h2>
-        <div className="text-xl font-bold text-emerald-400">
-          {promedium.toFixed(3)}
+
+        <div className="m-4 p-3 bg-neutral-800 rounded-lg">
+          <h2 className="text-sm font-semibold text-neutral-200">Average CPS</h2>
+          <div className="text-xl font-bold text-emerald-400">
+            {promedium.toFixed(3)}
           </div>
         </div>
     </div>
